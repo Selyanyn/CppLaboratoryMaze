@@ -71,18 +71,30 @@ bool Maze::removeConnection(int i1, int i2, int j1, int j2)
 	return modifyConnection(i1, i2, j1, j2, false);
 }
 
-map<tuple<bool, bool, bool, bool>, char> pathToSymbol = { {make_tuple(false, false, false, false), char(248)},
-														  {make_tuple(false, false, true, true), char(218)},
-														  {make_tuple(false, true, false, true), char(179)},
-														  {make_tuple(false, true, true, false), char(192)},
-														  {make_tuple(false, true, true, true), char(195)},
-														  {make_tuple(true, false, true, false), char(196)},
-														  {make_tuple(true, false, false, true), char(191)},
-														  {make_tuple(true, false, true, true), char(194)},
-														  {make_tuple(true, true, false, false), char(217)},
-														  {make_tuple(true, true, false, true), char(180)},
-														  {make_tuple(true, true, true, false), char(193)},
-														  {make_tuple(true, true, true, true), char(197)} };
+enum Directions
+{
+	None = 0,
+	Left = 1,
+	Up = 2,
+	Right = 4,
+	Down = 8,
+	LeftUp = 3,
+	LeftRight = 5,
+	UpRight = 6,
+	LeftUpRight = 7,
+	LeftDown = 9,
+	UpDown = 10,
+	LeftUpDown = 11,
+	RightDown = 12,
+	LeftRightDown = 13,
+	UpRightDown = 14,
+	LeftUpRightDown = 15,
+};
+
+char pathToSymbol[16] = { char(248), char(248), char(248), char(217),
+						  char(248), char(196), char(192), char(193), 
+						  char(248), char(191), char(179), char(180), 
+						  char(218), char(194), char(195), char(197), };
 
 void Maze::printMaze()
 {
@@ -90,13 +102,9 @@ void Maze::printMaze()
 	{
 		for (int i = 0; i < m_width; i++)
 		{
-			auto paths = make_tuple(hasConnection(i - 1, j, i, j), hasConnection(i, j - 1, i, j),
-				hasConnection(i, j, i + 1, j), hasConnection(i, j, i, j + 1));
-			auto pair = pathToSymbol.find(paths);
-			if (pair == pathToSymbol.end())
-				cout << char(248);
-			else
-				cout << pair->second;
+			auto paths = Directions(hasConnection(i - 1, j, i, j) + 2 * hasConnection(i, j - 1, i, j) +
+				4 * hasConnection(i, j, i + 1, j) + 8 * hasConnection(i, j, i, j + 1));
+			cout << pathToSymbol[paths];
 		}
 		cout << '\n';
 	}
