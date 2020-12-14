@@ -1,9 +1,5 @@
 #include "Maze.h"
 #include <iostream>
-#include <stdlib.h>
-#include <stdexcept>
-#include <tuple>
-#include <map>
 
 using namespace std;
 
@@ -24,16 +20,10 @@ const MCell& Maze::cell(int i, int j) const
 	return m_field[i * m_width + j];
 }
 
-bool Maze::areAdjacent(int i1, int i2, int j1, int j2)
-{
-	return ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
-		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height)
-		&& (abs(j1 - i1) + abs(j2 - i2) == 1));
-}
-
 bool Maze::hasConnection(int i1, int i2, int j1, int j2)
 {
-	if (areAdjacent(i1, i2, j1, j2))
+	if ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
+		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height))
 	{
 		if (j2 == i2 && j1 - i1 == 1)
 			return cell(i1, i2).right();
@@ -43,32 +33,42 @@ bool Maze::hasConnection(int i1, int i2, int j1, int j2)
 	return false;
 }
 
-bool Maze::modifyConnection(int i1, int i2, int j1, int j2, bool type)
+bool Maze::makeConnection(int i1, int i2, int j1, int j2)
 {
-	if (areAdjacent(i1, i2, j1, j2))
+	if ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
+		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height))
 	{
 		if (j2 == i2 && j1 - i1 == 1)
 		{
-			m_field[i1 * m_width + i2].m_right = type;
+			m_field[i1 * m_width + i2].m_right = true;
 			return true;
 		}
 		if ((j2 - i2 == 1 && j1 == i1))
 		{
-			m_field[i1 * m_width + i2].m_down = type;
+			m_field[i1 * m_width + i2].m_down = true;
 			return true;
 		}
 	}
 	return false;
 }
 
-bool Maze::makeConnection(int i1, int i2, int j1, int j2)
-{
-	return modifyConnection(i1, i2, j1, j2, true);
-}
-
 bool Maze::removeConnection(int i1, int i2, int j1, int j2)
 {
-	return modifyConnection(i1, i2, j1, j2, false);
+	if ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
+		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height))
+	{
+		if (j2 == i2 && j1 - i1 == 1)
+		{
+			m_field[i1 * m_width + i2].m_right = false;
+			return true;
+		}
+		if ((j2 - i2 == 1 && j1 == i1))
+		{
+			m_field[i1 * m_width + i2].m_down = false;
+			return true;
+		}
+	}
+	return false;
 }
 
 enum Directions
