@@ -1,5 +1,4 @@
-﻿#include <iostream>
-# include "Maze.h"
+﻿#include "Maze.h"
 
 int main()
 {
