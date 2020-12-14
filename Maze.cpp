@@ -1,9 +1,5 @@
 #include "Maze.h"
 #include <iostream>
-#include <stdlib.h>
-#include <stdexcept>
-#include <tuple>
-#include <map>
 
 using namespace std;
 
