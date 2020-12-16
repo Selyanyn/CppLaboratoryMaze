@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <queue>
 #include "Maze.h"
 #include "MTreeNode.h"
@@ -47,6 +47,7 @@ void printTree(MTreeNode tree)
 		}
 		cout << '\n';
 	}
+}
 
 int main()
 {
