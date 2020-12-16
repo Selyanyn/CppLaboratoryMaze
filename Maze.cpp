@@ -1,4 +1,5 @@
 #include "Maze.h"
+#include <algorithm>
 #include <iostream>
 
 using namespace std;
@@ -38,14 +39,14 @@ bool Maze::makeConnection(int i1, int i2, int j1, int j2)
 	if ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
 		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height))
 	{
-		if (j2 == i2 && j1 - i1 == 1)
+		if (j2 == i2 && abs(j1 - i1) == 1)
 		{
-			m_field[i1 * m_width + i2].m_right = true;
+			m_field[min(i1, j1) * m_width + i2].m_right = true;
 			return true;
 		}
-		if ((j2 - i2 == 1 && j1 == i1))
+		if (abs(j2 - i2) == 1 && j1 == i1)
 		{
-			m_field[i1 * m_width + i2].m_down = true;
+			m_field[i1 * m_width + min(i2, j2)].m_down = true;
 			return true;
 		}
 	}
@@ -57,14 +58,14 @@ bool Maze::removeConnection(int i1, int i2, int j1, int j2)
 	if ((i1 >= 0 && i1 < m_width && i2 >= 0 && i2 < m_height
 		&& j1 >= 0 && j1 < m_width && j2 >= 0 && j2 < m_height))
 	{
-		if (j2 == i2 && j1 - i1 == 1)
+		if (j2 == i2 && abs(j1 - i1) == 1)
 		{
-			m_field[i1 * m_width + i2].m_right = false;
+			m_field[min(i1, j1) * m_width + i2].m_right = false;
 			return true;
 		}
-		if ((j2 - i2 == 1 && j1 == i1))
+		if (abs(j2 - i2) == 1 && j1 == i1)
 		{
-			m_field[i1 * m_width + i2].m_down = false;
+			m_field[i1 * m_width + min(i2, j2)].m_down = false;
 			return true;
 		}
 	}
