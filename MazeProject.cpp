@@ -51,13 +51,6 @@ void printTree(MTreeNode tree)
 
 int main()
 {
-	auto maze = Maze(5, 5);
-	for (int i = 0; i < 4; i++)
-	{
-		maze.makeConnection(i, i, i + 1, i);
-		maze.makeConnection(i + 1, i, i + 1, i + 1);
-	}
-	maze.printMaze();
 	auto treeMaze = Maze(5, 5);
 	for (int n = 0; n < 4; n++)
 	{
